@@ -278,3 +278,270 @@
     top: 20px;
     right: 220px;
 }
+
+/* Mobile Responsive Design */
+@media (max-width: 1024px) {
+    .header-overlay h2 {
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+    }
+
+    .header-overlay p {
+        font-size: 0.85rem;
+        margin: 5px 0 0 0;
+    }
+
+    .log-overlay {
+        width: 320px;
+        padding: 12px;
+        font-size: 0.7rem;
+    }
+
+    .stats-overlay {
+        width: 240px;
+        padding: 12px;
+    }
+
+    .top-countries-overlay {
+        bottom: 20px;
+        right: 20px;
+        width: 240px;
+    }
+
+    .top-ips-overlay {
+        bottom: 20px;
+        right: 270px;
+        width: 240px;
+    }
+
+    .attack-rate-overlay {
+        top: 20px;
+        right: 20px;
+        width: 160px;
+    }
+
+    .attack-counter-overlay {
+        top: 20px;
+        right: 190px;
+        width: 160px;
+    }
+
+    .rate-value,
+    .counter-value {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .map-container {
+        overflow-y: auto;
+    }
+
+    .header-overlay {
+        top: 15px;
+        left: 15px;
+    }
+
+    .header-overlay h2 {
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+    }
+
+    .header-overlay p {
+        font-size: 0.7rem;
+        margin: 3px 0 0 0;
+    }
+
+    .log-overlay,
+    .log-overlay-collapsed {
+        bottom: 15px;
+        left: 15px;
+        width: calc(100vw - 50px);
+        max-width: 100%;
+    }
+
+    .log-overlay {
+        width: calc(100vw - 50px);
+        padding: 10px;
+        max-height: 150px;
+        overflow-y: auto;
+    }
+
+    .log-overlay li {
+        margin-bottom: 4px;
+        font-size: 0.65rem;
+    }
+
+    .log-overlay ul {
+        font-size: 0.65rem;
+    }
+
+    .stats-overlay,
+    .stats-overlay-collapsed {
+        width: calc(50vw - 35px);
+        padding: 10px;
+        font-size: 0.7rem;
+    }
+
+    .stats-overlay h3 {
+        font-size: 0.8rem;
+        margin-bottom: 8px;
+    }
+
+    .stats-overlay li {
+        margin-bottom: 4px;
+        font-size: 0.65rem;
+    }
+
+    .top-countries-overlay,
+    .stats-overlay-collapsed.top-countries-overlay {
+        bottom: 175px;
+        right: 15px;
+        left: auto;
+    }
+
+    .top-ips-overlay,
+    .stats-overlay-collapsed.top-ips-overlay {
+        bottom: 175px;
+        left: 15px;
+        right: auto;
+    }
+
+    .attack-rate-overlay,
+    .stats-overlay-collapsed.attack-rate-overlay {
+        top: 80px;
+        right: 15px;
+        left: auto;
+    }
+
+    .attack-counter-overlay,
+    .stats-overlay-collapsed.attack-counter-overlay {
+        top: 80px;
+        left: 15px;
+        right: auto;
+    }
+
+    .rate-value,
+    .counter-value {
+        font-size: 1.5rem;
+    }
+
+    .rate-label {
+        font-size: 0.7rem;
+    }
+
+    .toggle-btn {
+        font-size: 1rem;
+    }
+
+    .toggle-btn-expand {
+        font-size: 0.7rem;
+    }
+
+    .overlay-header h3 {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-overlay {
+        top: 10px;
+        left: 10px;
+    }
+
+    .header-overlay h2 {
+        font-size: 0.85rem;
+    }
+
+    .header-overlay p {
+        font-size: 0.6rem;
+        margin: 2px 0 0 0;
+    }
+
+    .log-overlay,
+    .log-overlay-collapsed,
+    .stats-overlay,
+    .stats-overlay-collapsed {
+        width: calc(100vw - 30px);
+        padding: 8px;
+        border-radius: 6px;
+    }
+
+    .log-overlay {
+        bottom: 10px;
+        left: 10px;
+        max-height: 120px;
+    }
+
+    .log-overlay li,
+    .log-overlay ul {
+        font-size: 0.6rem;
+        margin-bottom: 3px;
+    }
+
+    .stats-overlay,
+    .stats-overlay-collapsed {
+        width: calc(100vw - 30px);
+    }
+
+    .stats-overlay h3,
+    .overlay-header h3 {
+        font-size: 0.75rem;
+    }
+
+    .stats-overlay li {
+        font-size: 0.6rem;
+        margin-bottom: 3px;
+    }
+
+    .top-countries-overlay,
+    .stats-overlay-collapsed.top-countries-overlay {
+        bottom: 140px;
+        right: 10px;
+        left: auto;
+    }
+
+    .top-ips-overlay,
+    .stats-overlay-collapsed.top-ips-overlay {
+        bottom: 140px;
+        left: 10px;
+        right: auto;
+    }
+
+    .attack-rate-overlay,
+    .stats-overlay-collapsed.attack-rate-overlay {
+        top: 70px;
+        right: 10px;
+        left: auto;
+    }
+
+    .attack-counter-overlay,
+    .stats-overlay-collapsed.attack-counter-overlay {
+        top: 70px;
+        left: 10px;
+        right: auto;
+    }
+
+    .rate-value,
+    .counter-value {
+        font-size: 1.2rem;
+    }
+
+    .rate-display,
+    .counter-display {
+        margin-top: 5px;
+    }
+
+    .toggle-btn {
+        font-size: 0.9rem;
+    }
+
+    .toggle-btn-expand {
+        font-size: 0.65rem;
+        padding: 2px 4px;
+    }
+
+    .count {
+        min-width: 25px;
+    }
+}
