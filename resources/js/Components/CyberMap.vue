@@ -10,8 +10,11 @@
     <div ref="globeContainer" class="globe-view"></div>
 
     <!-- Overlay Log Feed -->
-    <div class="log-overlay">
-      <h3>ATTACK LOGS</h3>
+    <div v-if="showLogs" class="log-overlay">
+      <div class="overlay-header">
+        <h3>ATTACK LOGS</h3>
+        <button @click="togglePanel('logs')" class="toggle-btn">−</button>
+      </div>
       <ul>
         <li v-for="(log, idx) in attackLogs" :key="idx">
           <span class="time">[{{ log.time }}]</span>
@@ -20,10 +23,16 @@
         </li>
       </ul>
     </div>
+    <div v-else class="log-overlay-collapsed">
+      <button @click="togglePanel('logs')" class="toggle-btn-expand">ATTACK LOGS</button>
+    </div>
 
     <!-- Top Countries Overlay -->
-    <div class="stats-overlay top-countries-overlay">
-      <h3>TOP COUNTRIES</h3>
+    <div v-if="showCountries" class="stats-overlay top-countries-overlay">
+      <div class="overlay-header">
+        <h3>TOP COUNTRIES</h3>
+        <button @click="togglePanel('countries')" class="toggle-btn">−</button>
+      </div>
       <ul>
         <li v-for="item in topCountries" :key="item.country">
           <span class="country">{{ item.country }}</span>
@@ -31,10 +40,16 @@
         </li>
       </ul>
     </div>
+    <div v-else class="stats-overlay-collapsed top-countries-overlay">
+      <button @click="togglePanel('countries')" class="toggle-btn-expand">TOP COUNTRIES</button>
+    </div>
 
     <!-- Top IPs Overlay -->
-    <div class="stats-overlay top-ips-overlay">
-      <h3>TOP IPs</h3>
+    <div v-if="showIps" class="stats-overlay top-ips-overlay">
+      <div class="overlay-header">
+        <h3>TOP IPs</h3>
+        <button @click="togglePanel('ips')" class="toggle-btn">−</button>
+      </div>
       <ul>
         <li v-for="item in topIps" :key="item.ip">
           <span class="ip-addr">{{ item.ip }}</span>
@@ -42,14 +57,37 @@
         </li>
       </ul>
     </div>
+    <div v-else class="stats-overlay-collapsed top-ips-overlay">
+      <button @click="togglePanel('ips')" class="toggle-btn-expand">TOP IPs</button>
+    </div>
 
     <!-- Attack Rate Overlay -->
-    <div class="stats-overlay attack-rate-overlay">
-      <h3>ATTACK RATE</h3>
+    <div v-if="showRate" class="stats-overlay attack-rate-overlay">
+      <div class="overlay-header">
+        <h3>ATTACK RATE</h3>
+        <button @click="togglePanel('rate')" class="toggle-btn">−</button>
+      </div>
       <div class="rate-display">
         <span class="rate-value">{{ attackRate }}</span>
         <span class="rate-label">/min</span>
       </div>
+    </div>
+    <div v-else class="stats-overlay-collapsed attack-rate-overlay">
+      <button @click="togglePanel('rate')" class="toggle-btn-expand">RATE</button>
+    </div>
+
+    <!-- Attack Counter Overlay -->
+    <div v-if="showCounter" class="stats-overlay attack-counter-overlay">
+      <div class="overlay-header">
+        <h3>TOTAL ATTACKS</h3>
+        <button @click="togglePanel('counter')" class="toggle-btn">−</button>
+      </div>
+      <div class="counter-display">
+        <span class="counter-value">{{ Object.values(ipStats).reduce((a, b) => a + b, 0) }}</span>
+      </div>
+    </div>
+    <div v-else class="stats-overlay-collapsed attack-counter-overlay">
+      <button @click="togglePanel('counter')" class="toggle-btn-expand">TOTAL</button>
     </div>
   </div>
 </template>
@@ -65,7 +103,22 @@ const attackLogs = ref([]);
 const countryStats = ref({});
 const ipStats = ref({});
 const attackTimestamps = ref([]);
+const showLogs = ref(true);
+const showCountries = ref(true);
+const showIps = ref(true);
+const showRate = ref(true);
+const showCounter = ref(true);
 let globeInstance;
+
+const togglePanel = (panel) => {
+  if (panel === 'logs') showLogs.value = !showLogs.value;
+  if (panel === 'countries') showCountries.value = !showCountries.value;
+  if (panel === 'ips') showIps.value = !showIps.value;
+  if (panel === 'rate') showRate.value = !showRate.value;
+  if (panel === 'counter') showCounter.value = !showCounter.value;
+};
+
+const totalAttacks = computed(() => attackLogs.value.length + (attackTimestamps.value.length > 12 ? attackTimestamps.value.length - 12 : 0));
 
 const topCountries = computed(() => {
   return Object.entries(countryStats.value)
