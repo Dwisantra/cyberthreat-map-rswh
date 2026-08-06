@@ -253,9 +253,50 @@
     letter-spacing: 0.5px;
     transition: color 0.2s;
     text-transform: uppercase;
+    display: none !important;
 }
 
 .toggle-btn-expand:hover {
+    color: #38bdf8;
+}
+
+/* Collapsed Icon-Only Style */
+.log-overlay-collapsed,
+.stats-overlay-collapsed {
+    position: absolute !important;
+    background: rgba(34, 211, 238, 0.1) !important;
+    border: 1.5px solid #22d3ee !important;
+    border-radius: 50% !important;
+    width: 42px !important;
+    height: 42px !important;
+    padding: 0 !important;
+    backdrop-filter: blur(8px) !important;
+    z-index: 10 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+}
+
+.log-overlay-collapsed::before,
+.stats-overlay-collapsed::before {
+    content: '\u25c8';
+    color: #22d3ee;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.log-overlay-collapsed:hover,
+.stats-overlay-collapsed:hover {
+    background: rgba(34, 211, 238, 0.2) !important;
+    border-color: #38bdf8 !important;
+    box-shadow: 0 0 16px rgba(34, 211, 238, 0.5) !important;
+    transform: scale(1.05);
+}
+
+.log-overlay-collapsed:hover::before,
+.stats-overlay-collapsed:hover::before {
     color: #38bdf8;
 }
 
@@ -441,6 +482,17 @@
     .overlay-header h3 {
         font-size: 0.8rem;
     }
+
+    .log-overlay-collapsed,
+    .stats-overlay-collapsed {
+        width: 38px !important;
+        height: 38px !important;
+    }
+
+    .log-overlay-collapsed::before,
+    .stats-overlay-collapsed::before {
+        font-size: 1.2rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -543,5 +595,16 @@
 
     .count {
         min-width: 25px;
+    }
+
+    .log-overlay-collapsed,
+    .stats-overlay-collapsed {
+        width: 36px !important;
+        height: 36px !important;
+    }
+
+    .log-overlay-collapsed::before,
+    .stats-overlay-collapsed::before {
+        font-size: 1rem;
     }
 }

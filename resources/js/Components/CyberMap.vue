@@ -23,9 +23,7 @@
         </li>
       </ul>
     </div>
-    <div v-else class="log-overlay-collapsed">
-      <button @click="togglePanel('logs')" class="toggle-btn-expand">ATTACK LOGS</button>
-    </div>
+    <div v-else class="log-overlay-collapsed" @click="togglePanel('logs')"></div>
 
     <!-- Top Countries Overlay -->
     <div v-if="showCountries" class="stats-overlay top-countries-overlay">
@@ -40,9 +38,7 @@
         </li>
       </ul>
     </div>
-    <div v-else class="stats-overlay-collapsed top-countries-overlay">
-      <button @click="togglePanel('countries')" class="toggle-btn-expand">TOP COUNTRIES</button>
-    </div>
+    <div v-else class="stats-overlay-collapsed top-countries-overlay" @click="togglePanel('countries')"></div>
 
     <!-- Top IPs Overlay -->
     <div v-if="showIps" class="stats-overlay top-ips-overlay">
@@ -57,9 +53,7 @@
         </li>
       </ul>
     </div>
-    <div v-else class="stats-overlay-collapsed top-ips-overlay">
-      <button @click="togglePanel('ips')" class="toggle-btn-expand">TOP IPs</button>
-    </div>
+    <div v-else class="stats-overlay-collapsed top-ips-overlay" @click="togglePanel('ips')"></div>
 
     <!-- Attack Rate Overlay -->
     <div v-if="showRate" class="stats-overlay attack-rate-overlay">
@@ -72,9 +66,7 @@
         <span class="rate-label">/min</span>
       </div>
     </div>
-    <div v-else class="stats-overlay-collapsed attack-rate-overlay">
-      <button @click="togglePanel('rate')" class="toggle-btn-expand">RATE</button>
-    </div>
+    <div v-else class="stats-overlay-collapsed attack-rate-overlay" @click="togglePanel('rate')"></div>
 
     <!-- Attack Counter Overlay -->
     <div v-if="showCounter" class="stats-overlay attack-counter-overlay">
@@ -86,9 +78,7 @@
         <span class="counter-value">{{ Object.values(ipStats).reduce((a, b) => a + b, 0) }}</span>
       </div>
     </div>
-    <div v-else class="stats-overlay-collapsed attack-counter-overlay">
-      <button @click="togglePanel('counter')" class="toggle-btn-expand">TOTAL</button>
-    </div>
+    <div v-else class="stats-overlay-collapsed attack-counter-overlay" @click="togglePanel('counter')"></div>
   </div>
 </template>
 
