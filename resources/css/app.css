@@ -264,19 +264,19 @@
 .log-overlay-collapsed,
 .stats-overlay-collapsed {
     position: absolute !important;
-    background: rgba(34, 211, 238, 0.1) !important;
-    border: 1.5px solid #22d3ee !important;
+    background: transparent !important;
+    border: none !important;
     border-radius: 50% !important;
-    width: 42px !important;
-    height: 42px !important;
+    width: 0 !important;
+    height: 0 !important;
     padding: 0 !important;
-    backdrop-filter: blur(8px) !important;
-    z-index: 10 !important;
-    display: flex !important;
+    backdrop-filter: none !important;
+    z-index: -1 !important;
+    display: none !important;
     align-items: center !important;
     justify-content: center !important;
-    cursor: pointer !important;
-    transition: all 0.3s ease !important;
+    cursor: default !important;
+    transition: none !important;
 }
 
 .log-overlay-collapsed::before,
@@ -289,15 +289,15 @@
 
 .log-overlay-collapsed:hover,
 .stats-overlay-collapsed:hover {
-    background: rgba(34, 211, 238, 0.2) !important;
-    border-color: #38bdf8 !important;
-    box-shadow: 0 0 16px rgba(34, 211, 238, 0.5) !important;
-    transform: scale(1.05);
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    transform: scale(1);
 }
 
 .log-overlay-collapsed:hover::before,
 .stats-overlay-collapsed:hover::before {
-    color: #38bdf8;
+    color: transparent;
 }
 
 /* Attack Counter Display */
@@ -485,13 +485,12 @@
 
     .log-overlay-collapsed,
     .stats-overlay-collapsed {
-        width: 38px !important;
-        height: 38px !important;
+        display: none !important;
     }
 
     .log-overlay-collapsed::before,
     .stats-overlay-collapsed::before {
-        font-size: 1.2rem;
+        display: none;
     }
 }
 
@@ -599,13 +598,12 @@
 
     .log-overlay-collapsed,
     .stats-overlay-collapsed {
-        width: 36px !important;
-        height: 36px !important;
+        display: none !important;
     }
 
     .log-overlay-collapsed::before,
     .stats-overlay-collapsed::before {
-        font-size: 1rem;
+        display: none;
     }
 }
 
