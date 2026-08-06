@@ -20,18 +20,73 @@
         </li>
       </ul>
     </div>
+
+    <!-- Top Countries Overlay -->
+    <div class="stats-overlay top-countries-overlay">
+      <h3>TOP COUNTRIES</h3>
+      <ul>
+        <li v-for="item in topCountries" :key="item.country">
+          <span class="country">{{ item.country }}</span>
+          <span class="count">{{ item.count }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Top IPs Overlay -->
+    <div class="stats-overlay top-ips-overlay">
+      <h3>TOP IPs</h3>
+      <ul>
+        <li v-for="item in topIps" :key="item.ip">
+          <span class="ip-addr">{{ item.ip }}</span>
+          <span class="count">{{ item.count }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Attack Rate Overlay -->
+    <div class="stats-overlay attack-rate-overlay">
+      <h3>ATTACK RATE</h3>
+      <div class="rate-display">
+        <span class="rate-value">{{ attackRate }}</span>
+        <span class="rate-label">/min</span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import Globe from 'globe.gl';
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 
 const globeContainer = ref(null);
 const attackLogs = ref([]);
+const countryStats = ref({});
+const ipStats = ref({});
+const attackTimestamps = ref([]);
 let globeInstance;
+
+const topCountries = computed(() => {
+  return Object.entries(countryStats.value)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+    .map(([country, count]) => ({ country, count }));
+});
+
+const topIps = computed(() => {
+  return Object.entries(ipStats.value)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+    .map(([ip, count]) => ({ ip, count }));
+});
+
+const attackRate = computed(() => {
+  const now = Date.now();
+  const oneMinuteAgo = now - 60000;
+  const recentAttacks = attackTimestamps.value.filter(t => t > oneMinuteAgo).length;
+  return recentAttacks;
+});
 
 const arcPalette = [
   ['#38bdf8', '#22d3ee'],
@@ -74,7 +129,7 @@ const buildArcData = (threat) => {
   const latDelta = Math.abs(endLat - startLat);
   const lngDelta = Math.abs(endLng - startLng);
   const distanceFactor = Math.min(1, (latDelta + lngDelta) / 180);
-  const altitude = 0.08 + distanceFactor * 0.27;
+  const altitude = 0.03 + distanceFactor * 0.35;
 
   return {
     startLat: Number.isFinite(startLat) ? startLat : 0,
@@ -96,7 +151,7 @@ onMounted(() => {
     .arcAltitude((d) => d.altitude || 0.08)
     .arcDashLength(0.16)
     .arcDashGap(0.04)
-    .arcDashAnimateTime(1400)
+    .arcDashAnimateTime(2200)
     .arcStroke(0.55);
 
   globeInstance.controls().autoRotate = true;
@@ -120,6 +175,14 @@ onMounted(() => {
 
       attackLogs.value.unshift(threat);
       if (attackLogs.value.length > 12) attackLogs.value.pop();
+      
+      countryStats.value[threat.country] = (countryStats.value[threat.country] || 0) + 1;
+      ipStats.value[threat.ip] = (ipStats.value[threat.ip] || 0) + 1;
+      attackTimestamps.value.push(Date.now());
+      
+      if (attackTimestamps.value.length > 1000) {
+        attackTimestamps.value.shift();
+      }
     });
 });
 </script>
