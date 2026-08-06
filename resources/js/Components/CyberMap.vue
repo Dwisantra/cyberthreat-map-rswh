@@ -69,11 +69,10 @@ const buildArcData = (threat) => {
   const startLat = Number(threat.srcLat);
   const startLng = normalizeLongitude(threat.srcLng);
   const endLat = Number(threat.dstLat);
-  const rawEndLng = normalizeLongitude(threat.dstLng);
-  const [adjustedStartLng, adjustedEndLng] = getShortestLongitudePair(startLng, rawEndLng);
+  const endLng = normalizeLongitude(threat.dstLng);
 
   const latDelta = Math.abs(endLat - startLat);
-  const lngDelta = Math.abs(adjustedEndLng - adjustedStartLng);
+  const lngDelta = Math.abs(endLng - startLng);
   const distanceFactor = Math.min(1, (latDelta + lngDelta) / 180);
   const altitude = 0.04 + distanceFactor * 0.1;
 
@@ -82,15 +81,15 @@ const buildArcData = (threat) => {
     startLat,
     startLng,
     endLat,
-    endLng: adjustedEndLng,
+    endLng,
     altitude
   });
 
   return {
     startLat: Number.isFinite(startLat) ? startLat : 0,
-    startLng: adjustedStartLng,
+    startLng,
     endLat: Number.isFinite(endLat) ? endLat : 0,
-    endLng: adjustedEndLng,
+    endLng,
     color: getArcColors(threat),
     altitude,
   };
