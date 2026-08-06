@@ -1,5 +1,5 @@
 <template>
-  <div class="map-container">
+  <div class="map-container" @contextmenu.prevent="showContextMenu">
     <!-- Overlay Header -->
     <div class="header-overlay">
       <h2>CYBERTHREAT REAL-TIME MONITORING</h2>
@@ -79,6 +79,31 @@
       </div>
     </div>
     <div v-else class="stats-overlay-collapsed attack-counter-overlay" @click="togglePanel('counter')"></div>
+
+    <!-- Context Menu -->
+    <div v-if="showContextMenuPanel" class="context-menu" :style="{ top: contextMenuY + 'px', left: contextMenuX + 'px' }">
+      <div class="context-menu-header">PANEL VISIBILITY</div>
+      <div class="context-menu-item" @click="togglePanel('logs')">
+        <span class="checkbox" :class="{ active: showLogs }"></span>
+        <span>Attack Logs</span>
+      </div>
+      <div class="context-menu-item" @click="togglePanel('counter')">
+        <span class="checkbox" :class="{ active: showCounter }"></span>
+        <span>Total Attacks</span>
+      </div>
+      <div class="context-menu-item" @click="togglePanel('countries')">
+        <span class="checkbox" :class="{ active: showCountries }"></span>
+        <span>Top Countries</span>
+      </div>
+      <div class="context-menu-item" @click="togglePanel('ips')">
+        <span class="checkbox" :class="{ active: showIps }"></span>
+        <span>Top IPs</span>
+      </div>
+      <div class="context-menu-item" @click="togglePanel('rate')">
+        <span class="checkbox" :class="{ active: showRate }"></span>
+        <span>Attack Rate</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -98,7 +123,24 @@ const showCountries = ref(true);
 const showIps = ref(true);
 const showRate = ref(true);
 const showCounter = ref(true);
+const showContextMenuPanel = ref(false);
+const contextMenuX = ref(0);
+const contextMenuY = ref(0);
 let globeInstance;
+
+const showContextMenu = (event) => {
+  contextMenuX.value = event.clientX;
+  contextMenuY.value = event.clientY;
+  showContextMenuPanel.value = true;
+  setTimeout(() => {
+    window.addEventListener('click', hideContextMenu);
+  }, 0);
+};
+
+const hideContextMenu = () => {
+  showContextMenuPanel.value = false;
+  window.removeEventListener('click', hideContextMenu);
+};
 
 const togglePanel = (panel) => {
   if (panel === 'logs') showLogs.value = !showLogs.value;
@@ -106,6 +148,7 @@ const togglePanel = (panel) => {
   if (panel === 'ips') showIps.value = !showIps.value;
   if (panel === 'rate') showRate.value = !showRate.value;
   if (panel === 'counter') showCounter.value = !showCounter.value;
+  hideContextMenu();
 };
 
 const totalAttacks = computed(() => attackLogs.value.length + (attackTimestamps.value.length > 12 ? attackTimestamps.value.length - 12 : 0));
