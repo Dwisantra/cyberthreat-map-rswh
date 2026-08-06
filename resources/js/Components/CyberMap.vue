@@ -77,6 +77,15 @@ const buildArcData = (threat) => {
   const distanceFactor = Math.min(1, (latDelta + lngDelta) / 180);
   const altitude = 0.04 + distanceFactor * 0.1;
 
+  console.log('Threat Arc:', {
+    from: `${threat.country} (${threat.city})`,
+    startLat,
+    startLng,
+    endLat,
+    endLng: adjustedEndLng,
+    altitude
+  });
+
   return {
     startLat: Number.isFinite(startLat) ? startLat : 0,
     startLng: adjustedStartLng,

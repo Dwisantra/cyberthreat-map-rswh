@@ -40,19 +40,22 @@ class SyslogDaemon extends Command
                 try {
                     $record = $reader->city($sourceIp);
                     
+                    $latitude = $record->location->latitude ?? 0;
+                    $longitude = $record->location->longitude ?? 0;
+                    
                     $data = [
                         'ip' => $sourceIp,
                         'country' => $record->country->name ?? 'Unknown',
                         'city' => $record->city->name ?? 'Unknown',
-                        'srcLat' => $record->location->latitude,
-                        'srcLng' => $record->location->longitude,
-                        'dstLat' => -7.4213, 
-                        'dstLng' => 109.2422,
+                        'srcLat' => floatval($latitude),
+                        'srcLng' => floatval($longitude),
+                        'dstLat' => -6.2088,
+                        'dstLng' => 106.8456,
                         'time' => now()->format('H:i:s')
                     ];
 
                     event(new ThreatDetected($data));
-                    $this->info("Threat caught from IP: {$sourceIp} ({$data['country']})");
+                    $this->info("Threat caught from IP: {$sourceIp} ({$data['country']}) at {$latitude}, {$longitude}");
 
                 } catch (\Exception $e) {
                     // Abaikan IP Private / Lokal yang tidak ada di database GeoIP
