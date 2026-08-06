@@ -33,17 +33,33 @@ const globeContainer = ref(null);
 const attackLogs = ref([]);
 let globeInstance;
 
+const arcPalette = [
+  ['#38bdf8', '#22d3ee'],
+  ['#f97316', '#fb923c'],
+  ['#a78bfa', '#8b5cf6'],
+  ['#4ade80', '#16a34a'],
+  ['#f43f5e', '#e11d48'],
+  ['#facc15', '#f59e0b'],
+];
+
+const getArcColors = (threat) => {
+  const seed = `${threat.country || 'unknown'}:${threat.city || 'unknown'}`.toLowerCase();
+  const hash = [...seed].reduce((total, char) => total + char.charCodeAt(0), 0);
+  return arcPalette[hash % arcPalette.length];
+};
+
 window.Pusher = Pusher;
 
 onMounted(() => {
   globeInstance = Globe()(globeContainer.value)
     .globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg')
     .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
-    .arcColor(() => ['#ff0055', '#e30000'])
-    .arcDashLength(0.5)
-    .arcDashGap(0.2)
-    .arcDashAnimateTime(1200)
-    .arcStroke(1.2);
+    .arcColor((d) => d.color || ['#38bdf8', '#22d3ee'])
+    .arcAltitude(0.16)
+    .arcDashLength(0.24)
+    .arcDashGap(0.08)
+    .arcDashAnimateTime(1600)
+    .arcStroke(0.35);
 
   globeInstance.controls().autoRotate = true;
   globeInstance.controls().autoRotateSpeed = 0.5;
@@ -62,11 +78,12 @@ onMounted(() => {
     .listen('ThreatDetected', (e) => {
       const threat = e.threatData;
       const currentArcs = globeInstance.arcsData();
-      globeInstance.arcsData([...currentArcs.slice(-25), {
+      globeInstance.arcsData([...currentArcs.slice(-20), {
         startLat: threat.srcLat,
         startLng: threat.srcLng,
         endLat: threat.dstLat,
         endLng: threat.dstLng,
+        color: getArcColors(threat),
       }]);
 
       attackLogs.value.unshift(threat);
